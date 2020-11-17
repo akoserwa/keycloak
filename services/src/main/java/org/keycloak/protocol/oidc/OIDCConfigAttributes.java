@@ -64,6 +64,14 @@ public final class OIDCConfigAttributes {
 
     public static final String CIBA_LOGIN_HINT_ENCODING_ENABLED = "login.hint.encoding.enabled";
 
+    public static final String CIBA_BACKCHANNEL_TOKEN_DELIVERY_MODE = "ciba.backchannel.token.delivery.mode";
+
+    public static final String CIBA_EXPIRE_IN = "ciba.expire.in";
+
+    public static final String CIBA_INTERVAL = "ciba.internal";
+
+    public static final String CIBA_AUTH_REQUESTED_USER_HINT = "ciba.auth.requested.user.hint";
+
     private OIDCConfigAttributes() {
     }
 

@@ -170,6 +170,22 @@ public class DescriptionConverter {
             configWrapper.setLoginHintEncodingEnabledParameter(clientOIDC.getLoginHintEncodingEnabled());
         }
 
+        if (clientOIDC.getCibaBackchannelTokenDeliveryMode() != null){
+            configWrapper.setCibaBackchannelTokenDeliveryMode(clientOIDC.getCibaBackchannelTokenDeliveryMode());
+        }
+
+        if(clientOIDC.getCibaAuthRequestedUserHint() != null){
+            configWrapper.setCibaAuthRequestedUserHint(clientOIDC.getCibaAuthRequestedUserHint());
+        }
+
+        if(clientOIDC.getCibaInterval() != null) {
+            configWrapper.setCibaInterval(clientOIDC.getCibaInterval());
+        }
+
+        if(clientOIDC.getCibaExpiresIn() != null){
+            configWrapper.setCibaExpiresIn(clientOIDC.getCibaExpiresIn());
+        }
+
         return client;
     }
 
@@ -289,6 +305,10 @@ public class DescriptionConverter {
         }
 
         response.setLoginHintEncodingEnabled(config.getLoginHintEncodingEnabledParameter());
+        response.setCibaAuthRequestedUserHint(config.getCibaAuthRequestedUserHint());
+        response.setCibaBackchannelTokenDeliveryMode(config.getCibaBackchannelTokenDeliveryMode());
+        response.setCibaExpiresIn(config.getCibaExpiresIn());
+        response.setCibaInterval(config.getCibaInterval());
 
         return response;
     }

@@ -63,6 +63,12 @@ public class ClientRepresentation {
     protected Map<String, Integer> registeredNodes;
     protected List<ProtocolMapperRepresentation> protocolMappers;
 
+    // CIBA policy
+    protected String cibaBackchannelTokenDeliveryMode;
+    protected Integer cibaExpiresIn;
+    protected Integer cibaInterval;
+    protected String cibaAuthRequestedUserHint;
+
     @Deprecated
     protected String clientTemplate;
     @Deprecated
@@ -422,4 +428,35 @@ public class ClientRepresentation {
         this.origin = origin;
     }
 
+    public String getCibaBackchannelTokenDeliveryMode() {
+        return cibaBackchannelTokenDeliveryMode;
+    }
+
+    public void setCibaBackchannelTokenDeliveryMode(String cibaBackchannelTokenDeliveryMode) {
+        this.cibaBackchannelTokenDeliveryMode = cibaBackchannelTokenDeliveryMode;
+    }
+
+    public Integer getCibaExpiresIn() {
+        return cibaExpiresIn;
+    }
+
+    public void setCibaExpiresIn(Integer cibaExpiresIn) {
+        this.cibaExpiresIn = cibaExpiresIn;
+    }
+
+    public Integer getCibaInterval() {
+        return cibaInterval;
+    }
+
+    public void setCibaInterval(Integer cibaInterval) {
+        this.cibaInterval = cibaInterval;
+    }
+
+    public String getCibaAuthRequestedUserHint() {
+        return cibaAuthRequestedUserHint;
+    }
+
+    public void setCibaAuthRequestedUserHint(String cibaAuthRequestedUserHint) {
+        this.cibaAuthRequestedUserHint = cibaAuthRequestedUserHint;
+    }
 }

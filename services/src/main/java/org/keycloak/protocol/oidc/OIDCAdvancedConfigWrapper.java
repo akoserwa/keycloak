@@ -212,6 +212,42 @@ public class OIDCAdvancedConfigWrapper {
         setAttribute(OIDCConfigAttributes.BACKCHANNEL_USER_CODE_PARAMETER, val);
     }
 
+	public String getCibaBackchannelTokenDeliveryMode() {
+		return getAttribute(OIDCConfigAttributes.CIBA_BACKCHANNEL_TOKEN_DELIVERY_MODE);
+	}
+
+	public void setCibaBackchannelTokenDeliveryMode(String cibaBackchannelTokenDeliveryMode) {
+		setAttribute(OIDCConfigAttributes.CIBA_BACKCHANNEL_TOKEN_DELIVERY_MODE, cibaBackchannelTokenDeliveryMode);
+	}
+
+	public String getCibaAuthRequestedUserHint() {
+		return getAttribute(OIDCConfigAttributes.CIBA_AUTH_REQUESTED_USER_HINT);
+	}
+
+	public void setCibaAuthRequestedUserHint(String cibaAuthRequestedUserHint) {
+		setAttribute(OIDCConfigAttributes.CIBA_AUTH_REQUESTED_USER_HINT, cibaAuthRequestedUserHint);
+	}
+
+	public Integer getCibaInterval() {
+		String cibaInterval = getAttribute(OIDCConfigAttributes.CIBA_INTERVAL);
+		return Integer.parseInt(cibaInterval);
+	}
+
+	public void setCibaInterval(Integer cibaInterval) {
+		String val = String.valueOf(cibaInterval);
+		setAttribute(OIDCConfigAttributes.CIBA_INTERVAL, val);
+	}
+
+	public Integer getCibaExpiresIn() {
+		String cibaExpireIn = getAttribute(OIDCConfigAttributes.CIBA_EXPIRE_IN);
+		return Integer.parseInt(cibaExpireIn);
+	}
+
+	public void setCibaExpiresIn(Integer cibaExpiresIn) {
+		String val = String.valueOf(cibaExpiresIn);
+		setAttribute(OIDCConfigAttributes.CIBA_EXPIRE_IN, val);
+	}
+
     private String getAttribute(String attrKey) {
         if (clientModel != null) {
             return clientModel.getAttribute(attrKey);
