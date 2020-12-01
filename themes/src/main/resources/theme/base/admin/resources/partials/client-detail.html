@@ -366,7 +366,6 @@
                 </div>
                 <kc-tooltip>{{:: 'backchannel-logout-url.tooltip' | translate}}</kc-tooltip>
             </div>
-
             <div class="form-group clearfix block" data-ng-show="protocol == 'openid-connect'">
                 <label class="col-md-2 control-label" for="loginHintEncodingEnabled">{{:: 'loginHintEncodingEnabled' | translate}}</label>
                 <div class="col-sm-6">
@@ -374,7 +373,6 @@
                 </div>
                 <kc-tooltip>{{:: 'loginHintEncodingEnabled.tooltip' | translate}}</kc-tooltip>
             </div>
-
             <div class="form-group clearfix block" data-ng-show="protocol == 'openid-connect'">
                 <label class="col-md-2 control-label" for="backchannelLogoutSessionRequired">{{:: 'backchannel-logout-session-required' | translate}}</label>
                 <div class="col-sm-6">
@@ -658,6 +656,60 @@
                     <input ng-model="tlsClientCertificateBoundAccessTokens" ng-click="switchChange()" name="tlsClientCertificateBoundAccessTokens" id="tlsClientCertificateBoundAccessTokens" onoffswitch on-text="{{:: 'onText' | translate}}" off-text="{{:: 'offText' | translate}}"/>
                 </div>
                 <kc-tooltip>{{:: 'tls-client-certificate-bound-access-tokens.tooltip' | translate}}</kc-tooltip>
+            </div>
+
+            <div class="form-group clearfix block" data-ng-show="protocol == 'openid-connect'">
+                <label class="col-md-2 control-label" for="cibaExpiresIn">{{:: 'ciba-expires-in' | translate}}</label>
+                <div class="col-md-6 time-selector">
+                    <input class="form-control" type="number" min="0" max="31536000" data-ng-model="cibaExpiresIn.time"
+                        name="cibaExpiresIn" id="cibaExpiresIn" data-ng-change="updateCibaExpiresIn()" />
+                    <select class="form-control" data-ng-model="cibaExpiresIn.unit" data-ng-change="updateCibaExpiresIn()">
+                        <option value="Minutes">{{:: 'minutes' | translate}}</option>
+                        <option value="Hours">{{:: 'hours' | translate}}</option>
+                        <option value="Days">{{:: 'days' | translate}}</option>
+                    </select>
+                </div>
+                <kc-tooltip>{{:: 'ciba-expires-in.tooltip' | translate}}</kc-tooltip>
+            </div>
+
+            <div class="form-group clearfix block" data-ng-show="protocol == 'openid-connect'">
+                <label class="col-md-2 control-label"
+                    for="cibaBackchannelTokenDeliveryMode">{{:: 'ciba-backchannel-tokendelivery-mode' | translate}}</label>
+                <div class="col-sm-6">
+                    <select class="form-control" name="cibaBackchannelTokenDeliveryMode" data-ng-model="cibaBackchannelTokenDeliveryMode"
+                        data-ng-change="updateCibaBackchannelTokenDeliveryMode()">
+                        <option value="poll">Poll</option>
+                    </select>
+                </div>
+                <kc-tooltip>{{:: 'ciba-backchannel-tokendelivery-mode.tooltip' | translate}}</kc-tooltip>
+            </div>
+
+            <div class="form-group clearfix block" data-ng-show="protocol == 'openid-connect'">
+                <label class="col-md-2 control-label" for="cibaInterval">{{:: 'ciba-interval' | translate}}</label>
+                <div class="col-md-6 time-selector">
+                    <input class="form-control" type="number" min="0" max="600" name="cibaInterval" data-ng-model="cibaInterval.time"
+                        data-ng-change="updateCibaInterval()" id="cibaInterval" />
+                    <select class="form-control" data-ng-model="cibaInterval.unit" data-ng-change="updateCibaInterval()">
+                        <option value="Minutes">{{:: 'minutes' | translate}}</option>
+                        <option value="Hours">{{:: 'hours' | translate}}</option>
+                        <option value="Days">{{:: 'days' | translate}}</option>
+                    </select>
+                </div>
+                <kc-tooltip>{{:: 'ciba-interval.tooltip' | translate}}</kc-tooltip>
+            </div>
+
+            <div class="form-group clearfix block" data-ng-show="protocol == 'openid-connect'">
+                <label class="col-md-2 control-label"
+                    for="cibaAuthRequestedUserHint">{{:: 'ciba-auth-requested-user-hint' | translate}}</label>
+                <div class="col-sm-6">
+                    <select class="form-control" id="cibaAuthRequestedUserHint" name="cibaAuthRequestedUserHint" data-ng-model="cibaAuthRequestedUserHint"
+                        data-ng-change="updateCibaAuthRequestedUserHint()">
+                        <option value="login_hint">login_hint</option>
+                        <option value="login_hint_token">login_hint_token</option>
+                        <option value="id_token_hint">id_token_hint</option>
+                    </select>
+                </div>
+                <kc-tooltip>{{:: 'ciba-auth-requested-user-hint.tooltip' | translate}}</kc-tooltip>
             </div>
 
             <div class="form-group clearfix block" data-ng-show="protocol == 'openid-connect'">

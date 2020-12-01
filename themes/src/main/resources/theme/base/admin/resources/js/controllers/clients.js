@@ -1116,6 +1116,10 @@ module.controller('ClientDetailCtrl', function($scope, realm, client, flows, $ro
     $scope.clientSessionMaxLifespan = TimeUnit2.asUnit(client.attributes['client.session.max.lifespan']);
     $scope.clientOfflineSessionIdleTimeout = TimeUnit2.asUnit(client.attributes['client.offline.session.idle.timeout']);
     $scope.clientOfflineSessionMaxLifespan = TimeUnit2.asUnit(client.attributes['client.offline.session.max.lifespan']);
+    $scope.cibaExpiresIn = TimeUnit2.asUnit(client.attributes['ciba.expires.in']);
+    $scope.cibaBackchannelTokenDeliveryMode = client.attributes['ciba.backchannel.token.delivery.mode'];
+    $scope.cibaInterval =TimeUnit2.asUnit(client.attributes['ciba.interval']);
+    $scope.cibaAuthRequestedUserHint = client.attributes['ciba.auth.requested.user.hint'];
 
     if(client.origin) {
         if ($scope.access.viewRealm) {
@@ -1507,6 +1511,30 @@ module.controller('ClientDetailCtrl', function($scope, realm, client, flows, $ro
             $scope.clientEdit.attributes['client.offline.session.max.lifespan'] = $scope.clientOfflineSessionMaxLifespan.toSeconds();
         } else {
             $scope.clientEdit.attributes['client.offline.session.max.lifespan'] = null;
+        }
+    }
+
+    $scope.updateCibaExpiresIn = function() {
+        if ($scope.cibaExpiresIn.time) {
+            $scope.clientEdit.attributes['ciba.expires.in'] = $scope.cibaExpiresIn.toSeconds();
+        } else {
+            $scope.clientEdit.attributes['ciba.expires.in'] = null;
+        }
+    }
+
+    $scope.updateCibaBackchannelTokenDeliveryMode = function(){
+        $scope.clientEdit.attributes['ciba.backchannel.token.delivery.mode'] = $scope.cibaBackchannelTokenDeliveryMode
+    }
+
+    $scope.updateCibaAuthRequestedUserHint = function(){
+        $scope.clientEdit.attributes['ciba.auth.requested.user.hint'] = $scope.cibaAuthRequestedUserHint
+    }
+
+    $scope.updateCibaInterval = function () {
+        if ($scope.cibaInterval.time) {
+            $scope.clientEdit.attributes['ciba.interval'] = $scope.cibaInterval.toSeconds();
+        } else {
+            $scope.clientEdit.attributes['ciba.interval'] = null;
         }
     }
 
