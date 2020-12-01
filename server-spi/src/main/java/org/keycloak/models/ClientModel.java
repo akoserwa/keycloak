@@ -242,16 +242,4 @@ public interface ClientModel extends ClientScopeModel, RoleContainerModel,  Prot
         }
         return consentScreenText;
     }
-
-    String getCibaBackchannelTokenDeliveryMode();
-    void setCibaBackchannelTokenDeliveryMode(String cibaBackchannelTokenDeliveryMode);
-
-    Integer getCibaExpiresIn();
-    void setCibaExpiresIn(Integer cibaExpiresIn);
-
-    Integer getCibaInterval();
-    void setCibaInterval(Integer cibaInterval);
-
-    String getCibaAuthRequestedUserHint();
-    void setCibaAuthRequestedUserHint(String cibaAuthRequestedUserHint);
 }
