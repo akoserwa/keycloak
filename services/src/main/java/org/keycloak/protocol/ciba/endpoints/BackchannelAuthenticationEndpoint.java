@@ -20,6 +20,7 @@ import org.keycloak.protocol.ciba.resolvers.CIBALoginUserResolver;
 import org.keycloak.protocol.ciba.utils.CIBAAuthReqIdParser;
 import org.keycloak.protocol.ciba.utils.EarlyAccessBlocker;
 import org.keycloak.protocol.ciba.utils.EarlyAccessBlockerParser;
+import org.keycloak.protocol.oidc.OIDCConfigAttributes;
 import org.keycloak.protocol.oidc.utils.AuthorizeClientUtil;
 import org.keycloak.services.CorsErrorResponseException;
 import org.keycloak.services.ErrorResponseException;
@@ -95,8 +96,12 @@ public class BackchannelAuthenticationEndpoint {
         // create auth_req_id and store Auth Req ID as its representation
         // UserSession's ID will become userSessionIdWillBeCreated which make it easy for searching UserSession on TokenEndpoint afterwards
         String userSessionIdWillBeCreated = getUserSessionIdWillBeCreated();
-
-        int interval = policy.getInterval();
+        int interval = 0;
+        if (client.getAttribute(OIDCConfigAttributes.CIBA_INTERVAL) != null){
+            interval = Integer.parseInt(client.getAttribute(OIDCConfigAttributes.CIBA_INTERVAL));
+        } else {
+            interval = policy.getInterval();
+        }
         String throttlingId = null;
         if (interval > 0) throttlingId = UUID.randomUUID().toString();
         CIBAAuthReqId authReqIdJwt = new CIBAAuthReqId();
@@ -109,7 +114,14 @@ public class BackchannelAuthenticationEndpoint {
         authReqIdJwt.issuer(Urls.realmIssuer(session.getContext().getUri().getBaseUri(), realm.getName()));
         authReqIdJwt.audience(authReqIdJwt.getIssuer());
         authReqIdJwt.subject(user.getId());
-        authReqIdJwt.exp(Long.valueOf(Time.currentTime() + policy.getExpiresIn()));
+        int expireIn = 0;
+        if (client.getAttribute(OIDCConfigAttributes.CIBA_EXPIRE_IN) != null){
+            expireIn = Integer.parseInt(client.getAttribute(OIDCConfigAttributes.CIBA_EXPIRE_IN));
+            authReqIdJwt.exp(Long.valueOf(Time.currentTime() +  expireIn));
+        } else {
+            expireIn = policy.getExpiresIn();
+            authReqIdJwt.exp(Long.valueOf(Time.currentTime() +  expireIn));
+        }
         authReqIdJwt.issuedFor(client.getClientId());
         String authReqId = CIBAAuthReqIdParser.persistAuthReqId(session, authReqIdJwt);
 
@@ -124,12 +136,13 @@ public class BackchannelAuthenticationEndpoint {
         if (provider == null) {
             throw new RuntimeException("CIBA Decoupled Authentication Provider not setup properly.");
         }
-        provider.doBackchannelAuthentication(client, request, policy.getExpiresIn(), authResultId, userSessionIdWillBeCreated);
+        provider.doBackchannelAuthentication(client, request, expireIn, authResultId, userSessionIdWillBeCreated);
 
         ObjectNode response = JsonSerialization.createObjectNode();
         response.put(CIBAConstants.AUTH_REQ_ID, authReqId);
-        response.put(CIBAConstants.EXPIRES_IN, policy.getExpiresIn());
-        if (policy.getInterval() > 0) response.put(CIBAConstants.INTERVAL, policy.getInterval());
+
+        response.put(CIBAConstants.EXPIRES_IN, expireIn);
+        if (policy.getInterval() > 0) response.put(CIBAConstants.INTERVAL, interval);
         try {
             return Response.ok(JsonSerialization.writeValueAsBytes(response)).type(MediaType.APPLICATION_JSON_TYPE).build();
         } catch (IOException e) {
@@ -145,9 +158,13 @@ public class BackchannelAuthenticationEndpoint {
             throw new CorsErrorResponseException(cors, OAuthErrorException.INVALID_REQUEST, "missing parameter : scope", Response.Status.BAD_REQUEST);
         request.setScope(scope);
 
+        String authRequestedUserHint = null;
         logger.info("  scope = " + request.getScope());
-
-        String authRequestedUserHint = realm.getCIBAPolicy().getAuthRequestedUserHint();
+        if (client.getAttribute(OIDCConfigAttributes.CIBA_AUTH_REQUESTED_USER_HINT) != null){
+            authRequestedUserHint = client.getAttribute(OIDCConfigAttributes.CIBA_AUTH_REQUESTED_USER_HINT);
+        } else {
+            authRequestedUserHint = realm.getCIBAPolicy().getAuthRequestedUserHint();
+        }
         logger.info("  authRequestedUserHint = " + authRequestedUserHint);
         String userHint = null;
         if (authRequestedUserHint.equals(CIBAConstants.LOGIN_HINT)) {
