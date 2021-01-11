@@ -142,7 +142,7 @@ public class BackchannelAuthenticationEndpoint {
         response.put(CIBAConstants.AUTH_REQ_ID, authReqId);
 
         response.put(CIBAConstants.EXPIRES_IN, expireIn);
-        if (policy.getInterval() > 0) response.put(CIBAConstants.INTERVAL, interval);
+        if (interval > 0) response.put(CIBAConstants.INTERVAL, interval);
         try {
             return Response.ok(JsonSerialization.writeValueAsBytes(response)).type(MediaType.APPLICATION_JSON_TYPE).build();
         } catch (IOException e) {
